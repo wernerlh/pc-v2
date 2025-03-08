@@ -7,6 +7,10 @@ use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
+use App\Filament\Usuariocasino\Pages\Auth\RegisterUserCliente;
+use App\Filament\Usuariocasino\Pages\DatosPersonales;
+use App\Filament\Usuariocasino\Pages\CambiarCorreo;
+use App\Filament\Usuariocasino\Pages\CambiarContrasena;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -26,7 +30,7 @@ class UsuariocasinoPanelProvider extends PanelProvider
             ->id('usuariocasino')
             ->path('usuariocasino')
             ->login()
-            ->registration()
+            ->registration(RegisterUserCliente::class) // Usar la clase correcta
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -34,6 +38,10 @@ class UsuariocasinoPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Usuariocasino/Pages'), for: 'App\\Filament\\Usuariocasino\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                DatosPersonales::class,
+                CambiarCorreo::class,
+                CambiarContrasena::class,
+              
             ])
             ->discoverWidgets(in: app_path('Filament/Usuariocasino/Widgets'), for: 'App\\Filament\\Usuariocasino\\Widgets')
             ->widgets([
