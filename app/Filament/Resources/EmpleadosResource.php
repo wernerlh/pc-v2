@@ -6,6 +6,8 @@ use App\Filament\Resources\EmpleadosResource\Pages;
 use App\Filament\Resources\EmpleadosResource\RelationManagers;
 use App\Models\Empleados;
 use App\Models\Sucursales;
+use App\Models\Departamentos;
+
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -31,50 +33,56 @@ class EmpleadosResource extends Resource
     protected static ?string $pluralModelLabel = 'Empleados'; // Etiqueta plural
     protected static ?string $navigationGroup = 'Gestión de Empresa'; // Grupo de navegación
 
+    protected static ?int $navigationSort = 2;
+
 
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            TextInput::make('nombre_completo')
-                ->required()
-                ->maxLength(100),
-            TextInput::make('documento_identidad')
-                ->unique()
-                ->maxLength(20),
-            TextInput::make('correo')
-                ->email()
-                ->unique()
-                ->maxLength(100),
-            TextInput::make('telefono')
-                ->nullable()
-                ->maxLength(15),
-            TextInput::make('cargo')
-                ->required()
-                ->maxLength(100),
-            DatePicker::make('fecha_contratacion')
-                ->required(),
-            DatePicker::make('fecha_nacimiento')
-                ->required(),
-            Select::make('estado')
-                ->options([
-                    'ACTIVO' => 'Activo',
-                    'INACTIVO' => 'Inactivo',
-                    'VACACIONES' => 'Vacaciones',
-                    'LICENCIA' => 'Licencia',
-                    'DESPEDIDO' => 'Despedido',
-                ])
-                ->required(),
-            TextInput::make('salario_base')
-                ->numeric()
-                ->required(),
-            Select::make('sucursal_id')
-                ->relationship('sucursal', 'nombre')
-                ->required(),
-            Select::make('supervisor_id')
-                ->relationship('supervisor', 'nombre_completo')
-                ->nullable(),
-        ]);
+            ->schema([
+                TextInput::make('nombre_completo')
+                    ->required()
+                    ->maxLength(100),
+                TextInput::make('documento_identidad')
+                    ->unique()
+                    ->maxLength(20),
+                TextInput::make('correo')
+                    ->email()
+                    ->unique()
+                    ->maxLength(100),
+                TextInput::make('telefono')
+                    ->nullable()
+                    ->maxLength(15),
+                TextInput::make('cargo')
+                    ->required()
+                    ->maxLength(100),
+                DatePicker::make('fecha_contratacion')
+                    ->required(),
+                DatePicker::make('fecha_nacimiento')
+                    ->required(),
+                Select::make('estado')
+                    ->options([
+                        'ACTIVO' => 'Activo',
+                        'INACTIVO' => 'Inactivo',
+                        'VACACIONES' => 'Vacaciones',
+                        'LICENCIA' => 'Licencia',
+                        'DESPEDIDO' => 'Despedido',
+                    ])
+                    ->required(),
+                TextInput::make('salario_base')
+                    ->numeric()
+                    ->required(),
+                Select::make('sucursal_id')
+                    ->relationship('sucursal', 'nombre')
+                    ->required(),
+                Select::make('supervisor_id')
+                    ->relationship('supervisor', 'nombre_completo')
+                    ->nullable(),
+                Select::make('departamento_id')
+                    ->relationship('departamento', 'nombre')
+                    ->nullable(),
+
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -82,59 +90,59 @@ class EmpleadosResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('empleado_id')
-                ->label('ID')
-                ->sortable()
-                ->searchable(),
+                    ->label('ID')
+                    ->sortable()
+                    ->searchable(),
 
-            TextColumn::make('nombre_completo')
-                ->label('Nombre')
-                ->sortable()
-                ->searchable(),
+                TextColumn::make('nombre_completo')
+                    ->label('Nombre')
+                    ->sortable()
+                    ->searchable(),
 
-            TextColumn::make('documento_identidad')
-                ->label('Documento de Identidad')
-                ->searchable(),
+                TextColumn::make('documento_identidad')
+                    ->label('Documento de Identidad')
+                    ->searchable(),
 
-            TextColumn::make('correo')
-                ->label('Correo Electrónico')
-                ->searchable(),
+                TextColumn::make('correo')
+                    ->label('Correo Electrónico')
+                    ->searchable(),
 
-            TextColumn::make('cargo')
-                ->label('Cargo')
-                ->sortable(),
+                TextColumn::make('cargo')
+                    ->label('Cargo')
+                    ->sortable(),
 
-            TextColumn::make('estado')
-                ->label('Estado')
-                ->sortable(),
+                TextColumn::make('estado')
+                    ->label('Estado')
+                    ->sortable(),
 
-            TextColumn::make('salario_base')
-                ->label('Salario Base')
-                ->money('S/.') // Formato de moneda
-                ->sortable(),
+                TextColumn::make('salario_base')
+                    ->label('Salario Base')
+                    ->money('S/.') // Formato de moneda
+                    ->sortable(),
 
-            TextColumn::make('sucursal.nombre')
-                ->label('Sucursal')
-                ->sortable(),
+                TextColumn::make('sucursal.nombre')
+                    ->label('Sucursal')
+                    ->sortable(),
 
-            TextColumn::make('supervisor.nombre_completo')
-                ->label('Supervisor')
-                ->sortable(),
+                TextColumn::make('supervisor.nombre_completo')
+                    ->label('Supervisor')
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('estado')
-                ->options([
-                    'ACTIVO' => 'Activo',
-                    'INACTIVO' => 'Inactivo',
-                    'VACACIONES' => 'Vacaciones',
-                    'LICENCIA' => 'Licencia',
-                    'DESPEDIDO' => 'Despedido',
-                ]),
+                    ->options([
+                        'ACTIVO' => 'Activo',
+                        'INACTIVO' => 'Inactivo',
+                        'VACACIONES' => 'Vacaciones',
+                        'LICENCIA' => 'Licencia',
+                        'DESPEDIDO' => 'Despedido',
+                    ]),
                 Tables\Filters\SelectFilter::make('sucursal_id')
-                ->relationship('sucursal', 'nombre')
-                ->searchable(),
+                    ->relationship('sucursal', 'nombre')
+                    ->searchable(),
                 Tables\Filters\SelectFilter::make('supervisor_id')
-                ->relationship('supervisor', 'nombre_completo')
-                ->searchable(),
+                    ->relationship('supervisor', 'nombre_completo')
+                    ->searchable(),
 
             ])
             ->actions([

@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('provincia', 100); // Provincia o estado
             $table->string('codigo_postal', 20); // Código postal
             $table->string('pais', 100); // País
+            $table->enum('tipo_establecimiento', ['casino', 'hotel', 'mixto'])->default('mixto'); // Tipo de establecimiento
+            $table->integer('capacidad'); // Capacidad
+            $table->date('fecha_inauguracion'); // Fecha de inauguración
             $table->timestamps(); // Campos created_at y updated_at
         });
     }

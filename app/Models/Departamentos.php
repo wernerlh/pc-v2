@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sucursales extends Model
+class Departamentos extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Sucursales extends Model
      *
      * @var string
      */
-    protected $table = 'sucursales';
+    protected $table = 'departamentos';
 
     /**
      * The attributes that are mass assignable.
@@ -23,15 +23,8 @@ class Sucursales extends Model
      */
     protected $fillable = [
         'nombre',
-        'direccion',
-        'telefono',
-        'ciudad',
-        'provincia',
-        'codigo_postal',
-        'pais',
-        'tipo_establecimiento',
-        'capacidad',
-        'fecha_inauguracion',
+        'descripcion',
+        'gerente_id',
     ];
 
     /**
@@ -45,10 +38,18 @@ class Sucursales extends Model
     ];
 
     /**
-     * Get the empleados that belong to the sucursal.
+     * Get the gerente that owns the departamento.
+     */
+    public function gerente()
+    {
+        return $this->belongsTo(Empleados::class, 'gerente_id');
+    }
+
+    /**
+     * Get the empleados that belong to the departamento.
      */
     public function empleados()
     {
-        return $this->hasMany(Empleados::class, 'sucursal_id');
+        return $this->hasMany(Empleados::class, 'departamento_id');
     }
 }

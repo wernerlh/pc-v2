@@ -24,12 +24,14 @@ return new class extends Migration
             $table->decimal('salario_base', 10, 2);
             $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->unsignedBigInteger('sucursal_id')->nullable(); // Campo para la sucursal
+            $table->unsignedBigInteger('departamento_id')->nullable(); // Campo para el departamento
 
             $table->timestamps();
 
             // Relaciones de clave foránea
             $table->foreign('supervisor_id')->references('empleado_id')->on('empleados')->onDelete('set null');
             $table->foreign('sucursal_id')->references('id')->on('sucursales')->onDelete('set null');
+            $table->foreign('departamento_id')->references('id')->on('departamentos')->onDelete('set null');
         });
     }
 

@@ -34,6 +34,7 @@ class Empleados extends Model
         'salario_base',
         'supervisor_id',
         'sucursal_id',
+        'departamento_id', // Agregado el campo departamento_id
     ];
 
     /**
@@ -70,5 +71,13 @@ class Empleados extends Model
     public function empleados()
     {
         return $this->hasMany(Empleados::class, 'supervisor_id');
+    }
+
+    /**
+     * Get the departamento that owns the empleado.
+     */
+    public function departamento()
+    {
+        return $this->belongsTo(Departamentos::class, 'departamento_id');
     }
 }

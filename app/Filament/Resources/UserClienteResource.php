@@ -66,9 +66,6 @@ class UserClienteResource extends Resource
                 DatePicker::make('fecha_nacimiento')
                     ->label('Fecha de Nacimiento')
                     ->required(),
-                Textarea::make('preferencias')
-                    ->label('Preferencias')
-                    ->nullable(),
                 Select::make('estado_membresia')
                     ->options([
                         'desactivado' => 'Desactivado',
@@ -77,12 +74,37 @@ class UserClienteResource extends Resource
                     ])
                     ->default('desactivado')
                     ->required(),
+                Select::make('estado_cuenta') // Nuevo campo para el estado de la cuenta
+                    ->options([
+                        'activa' => 'Activa',
+                        'inactiva' => 'Inactiva',
+                        'suspendida' => 'Suspendida',
+                        'bloqueada' => 'Bloqueada',
+                    ])
+                    ->default('activa')
+                    ->required()
+                    ->live(), // Habilita la reactividad en tiempo real
+                DatePicker::make('fecha_suspension') // Campo para la fecha de suspensión
+                    ->label('Fecha de Suspensión')
+                    ->nullable()
+                    ->visible(function (Forms\Get $get) {
+                        return $get('estado_cuenta') === 'suspendida'; // Solo visible si el estado es "suspendida"
+                    }),
+                TextInput::make('limite_deposito_diario') // Nuevo campo para el límite de depósito diario
+                    ->label('Límite de Depósito Diario')
+                    ->numeric()
+                    ->default(1000)
+                    ->required(),
+                TextInput::make('limite_apuesta_diario') // Nuevo campo para el límite de apuesta diario
+                    ->label('Límite de Apuesta Diario')
+                    ->numeric()
+                    ->default(1000)
+                    ->required(),
                 TextInput::make('password')
                     ->label('Contraseña')
                     ->password()
                     ->required()
                     ->dehydrateStateUsing(fn($state) => Hash::make($state)), // Encripta la contraseña
-
             ]);
     }
 
@@ -91,50 +113,75 @@ class UserClienteResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('row_number')
-                ->label('N°')
-                ->rowIndex()
-                ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                ->label('Nombre de Usuario')
-                ->sortable()
-                ->searchable(),
-                Tables\Columns\TextColumn::make('nombre_completo')
-                ->label('Nombre Y Apellido')
-                ->sortable()
-                ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                ->label('Correo Electrónico')
-                ->sortable()
-                ->searchable(),
-                Tables\Columns\TextColumn::make('telefono')
-                ->label('Teléfono')
-                ->searchable()
-                ->sortable(),
-                Tables\Columns\TextColumn::make('direccion')
-                ->label('Dirección')
-                ->searchable()
-                ->sortable(),
-                Tables\Columns\TextColumn::make('fecha_nacimiento')
+                    ->label('N°')
+                    ->rowIndex()
+                    ->sortable(),
+                TextColumn::make('name')
+                    ->label('Nombre de Usuario')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('nombre_completo')
+                    ->label('Nombre Y Apellido')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('documento_identidad')
+                    ->label('DNI')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->label('Correo Electrónico')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('telefono')
+                    ->label('Teléfono')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('direccion')
+                    ->label('Dirección')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('fecha_nacimiento')
                     ->date()
                     ->label('Fecha de Nacimiento')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('estado_membresia'),
-                Tables\Columns\TextColumn::make('documento_identidad'),
-                Tables\Columns\TextColumn::make('limite_apuesta_diario'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('estado_membresia')
+                    ->label('Estado de Membresía')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('estado_cuenta') // Nuevo campo en la tabla
+                    ->label('Estado de Cuenta'),
+                TextColumn::make('fecha_suspension') // Nuevo campo en la tabla
+                    ->label('Fecha de Suspensión')
+                    ->date()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('limite_deposito_diario') // Nuevo campo en la tabla
+                    ->label('Límite de Depósito Diario')
+                    ->money('PEN')
+                    ->searchable()
+                    ->sortable(), // Formato de moneda (opcional)
+
+                TextColumn::make('limite_apuesta_diario')
+                    ->label('Límite de Apuesta Diario')
+                    ->money('PEN')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->label('Fecha de Creación')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->label('Fecha de Actualización')
                     ->searchable()
                     ->sortable(),
             ])
             ->filters([
-                
+                // Filtros adicionales si es necesario
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
