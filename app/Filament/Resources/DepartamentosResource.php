@@ -26,7 +26,7 @@ class DepartamentosResource extends Resource
     protected static ?string $pluralModelLabel = 'Departamentos';
     protected static ?string $navigationGroup = 'Gestión de Empresa';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
 
     public static function form(Form $form): Form
@@ -34,9 +34,11 @@ class DepartamentosResource extends Resource
         return $form
             ->schema([
                 TextInput::make('nombre')
+                    ->label('Nombre del departamento')
                     ->required()
                     ->maxLength(100),
                 TextInput::make('descripcion')
+                    ->label('Descripcion del departamento')
                     ->required()
                     ->maxLength(255),
                 Select::make('gerente_id')
@@ -51,7 +53,7 @@ class DepartamentosResource extends Resource
     {
         return $table
             ->columns([
-                
+
                 TextColumn::make('nombre')
                     ->label('Nombre')
                     ->sortable()
@@ -64,7 +66,7 @@ class DepartamentosResource extends Resource
                     ->label('Gerente')
                     ->sortable()
                     ->searchable(),
-                
+
             ])
             ->filters([
                 //

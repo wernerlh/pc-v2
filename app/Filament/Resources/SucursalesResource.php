@@ -39,15 +39,19 @@ class SucursalesResource extends Resource
             ->schema([
                 TextInput::make('nombre')
                     ->required()
-                    ->maxLength(100),
+                    ->maxLength(100)
+                    ->unique(),
                 TextInput::make('direccion')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->unique(),
                 TextInput::make('telefono')
                     ->required()
                     ->nullable()
-                    ->maxLength(15),
+                    ->maxLength(15)
+                    ->unique(),
                 TextInput::make('ciudad')
+                
                     ->required()
                     ->maxLength(100),
                 TextInput::make('provincia')
@@ -80,6 +84,10 @@ class SucursalesResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('row_number')
+                ->label('N°')
+                ->rowIndex()
+                ->sortable(),
                 TextColumn::make('nombre'),
                 TextColumn::make('direccion'),
                 TextColumn::make('telefono'),

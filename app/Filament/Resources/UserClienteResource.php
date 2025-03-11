@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserClienteResource\Pages;
-use App\Filament\Resources\UserClienteResource\RelationManagers;
+use App\Models\Membresia;
 use App\Models\UserCliente;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -65,14 +65,6 @@ class UserClienteResource extends Resource
                     ->maxLength(200),
                 DatePicker::make('fecha_nacimiento')
                     ->label('Fecha de Nacimiento')
-                    ->required(),
-                Select::make('estado_membresia')
-                    ->options([
-                        'desactivado' => 'Desactivado',
-                        'vip' => 'VIP',
-                        'super_vip' => 'Super VIP',
-                    ])
-                    ->default('desactivado')
                     ->required(),
                 Select::make('estado_cuenta') // Nuevo campo para el estado de la cuenta
                     ->options([
@@ -145,11 +137,7 @@ class UserClienteResource extends Resource
                     ->label('Fecha de Nacimiento')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('estado_membresia')
-                    ->label('Estado de Membresía')
-                    ->searchable()
-                    ->sortable(),
-
+ 
                 TextColumn::make('estado_cuenta') // Nuevo campo en la tabla
                     ->label('Estado de Cuenta'),
                 TextColumn::make('fecha_suspension') // Nuevo campo en la tabla

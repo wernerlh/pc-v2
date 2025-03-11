@@ -33,7 +33,7 @@ class EmpleadosResource extends Resource
     protected static ?string $pluralModelLabel = 'Empleados'; // Etiqueta plural
     protected static ?string $navigationGroup = 'Gestión de Empresa'; // Grupo de navegación
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
 
     public static function form(Form $form): Form
@@ -41,26 +41,38 @@ class EmpleadosResource extends Resource
         return $form
             ->schema([
                 TextInput::make('nombre_completo')
+                    ->label('Nombre Completo')
                     ->required()
                     ->maxLength(100),
                 TextInput::make('documento_identidad')
+                    ->label('Documento de Identidad')
+                    ->required()
                     ->unique()
                     ->maxLength(20),
                 TextInput::make('correo')
+                    ->label('Correo Electrónico')
+                    ->required()
                     ->email()
                     ->unique()
                     ->maxLength(100),
                 TextInput::make('telefono')
+                    ->label('Teléfono')
+                    ->required()
                     ->nullable()
                     ->maxLength(15),
                 TextInput::make('cargo')
+                    ->label('Cargo de trabajo')
+
                     ->required()
                     ->maxLength(100),
                 DatePicker::make('fecha_contratacion')
+                    ->label('Fecha de Contratación')
                     ->required(),
                 DatePicker::make('fecha_nacimiento')
+                    ->label('Fecha de Nacimiento')
                     ->required(),
                 Select::make('estado')
+                    ->label('Estado de trabajo')
                     ->options([
                         'ACTIVO' => 'Activo',
                         'INACTIVO' => 'Inactivo',
@@ -70,15 +82,19 @@ class EmpleadosResource extends Resource
                     ])
                     ->required(),
                 TextInput::make('salario_base')
+                    ->label('Salario Base')
                     ->numeric()
                     ->required(),
                 Select::make('sucursal_id')
+                    ->label('Sucursal')
                     ->relationship('sucursal', 'nombre')
                     ->required(),
                 Select::make('supervisor_id')
+                    ->label('Supervisor')
                     ->relationship('supervisor', 'nombre_completo')
                     ->nullable(),
                 Select::make('departamento_id')
+                    ->label('Departamento')
                     ->relationship('departamento', 'nombre')
                     ->nullable(),
 
@@ -89,10 +105,10 @@ class EmpleadosResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('empleado_id')
-                    ->label('ID')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('row_number')
+                ->label('N°')
+                ->rowIndex()
+                ->sortable(),
 
                 TextColumn::make('nombre_completo')
                     ->label('Nombre')

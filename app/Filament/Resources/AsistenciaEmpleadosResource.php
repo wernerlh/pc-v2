@@ -31,6 +31,8 @@ class AsistenciaEmpleadosResource extends Resource
     protected static ?string $pluralModelLabel = 'Asistencias'; // Etiqueta plural
     protected static ?string $navigationGroup = 'Gestión de Empresa'; // Grupo de navegación
 
+    protected static ?int $navigationSort = 5;
+
     public static function form(Form $form): Form
     {
         return $form

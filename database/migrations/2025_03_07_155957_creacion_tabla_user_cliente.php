@@ -22,7 +22,6 @@ return new class extends Migration
             $table->json('preferencias')->nullable();
             $table->enum('estado_cuenta', ['activa', 'inactiva', 'suspendida', 'bloqueada'])->default('activa');
             $table->date('fecha_suspension')->nullable(); // Nuevo campo para la fecha de suspensión
-            $table->enum('estado_membresia', ['desactivado', 'vip', 'super_vip'])->default('desactivado'); // Campo enum con valores permitidos      
             $table->decimal('limite_deposito_diario', 10, 2)->default(1000); // Valor por defecto: 1000
             $table->decimal('limite_apuesta_diario', 10, 2)->default(1000); // Valor por defecto: 1000
             $table->string('email')->unique();

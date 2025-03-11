@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Filament\Panel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
-class UserCliente extends Authenticatable 
+class UserCliente extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -28,12 +28,16 @@ class UserCliente extends Authenticatable
         'preferencias',
         'estado_cuenta',
         'fecha_suspension',
-        'estado_membresia',
         'limite_deposito_diario',
         'limite_apuesta_diario',
         'email',
         'password',
     ];
+
+    public function membresia(): BelongsTo
+    {
+        return $this->belongsTo(Membresia::class, 'membresia_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -55,4 +59,6 @@ class UserCliente extends Authenticatable
         'password' => 'hashed',
         'preferencias' => 'array',
     ];
+
+    
 }
