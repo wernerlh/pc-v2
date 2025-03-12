@@ -22,9 +22,8 @@ class BilleteraClienteResource extends Resource
     protected static ?string $navigationLabel = 'Billeteras de Clientes';
     protected static ?string $modelLabel = 'Billetera de Cliente';
     protected static ?string $pluralModelLabel = 'Billeteras de Clientes';
-    protected static ?string $navigationGroup = 'Gestión Financiera';
-    protected static ?int $navigationSort = 3;
-    protected static ?string $slug = 'usuariocasino/billeteras-clientes';
+    protected static ?string $navigationGroup = 'Gestión de Clientes';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {

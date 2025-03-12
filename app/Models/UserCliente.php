@@ -60,5 +60,19 @@ class UserCliente extends Authenticatable
         'preferencias' => 'array',
     ];
 
+
+    /**
+     * Create a billetera when a user_cliente is created
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($userCliente) {
+            BilleteraCliente::create([
+                'cliente_id' => $userCliente->id,
+            ]);
+        });
+    }
     
 }

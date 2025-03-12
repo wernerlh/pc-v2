@@ -30,7 +30,7 @@ class AtencionClienteResource extends Resource
     protected static ?string $modelLabel = 'Ticket';
     protected static ?string $pluralModelLabel = 'Tickets';
     protected static ?string $navigationGroup = 'Gestión de Clientes';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -41,7 +41,7 @@ class AtencionClienteResource extends Resource
                     ->options(UserCliente::all()->pluck('nombre_completo', 'id'))
                     ->searchable()
                     ->required(),
-                    Select::make('empleado_id')
+                Select::make('empleado_id')
                     ->label('Empleado asignado')
                     ->options(Empleados::all()->pluck('nombre_completo', 'empleado_id'))
                     ->searchable()
@@ -185,8 +185,7 @@ class AtencionClienteResource extends Resource
                         'escalado' => 'Escalado',
                     ]),
             ])
-            ->actions([
-            ])
+            ->actions([])
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

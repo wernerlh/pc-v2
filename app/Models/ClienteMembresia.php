@@ -29,4 +29,7 @@ class ClienteMembresia extends Model
     {
         return $this->belongsTo(Membresia::class, 'membresia_id');
     }
+
+    
+
 }
